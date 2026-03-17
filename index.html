@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepPrompt | Портфолио</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: #050505;
+            color: #fff;
+        }
+        .water-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; overflow: hidden;
+        }
+        #waterCanvas { width: 100%; height: 100%; display: block; }
+        .navigation {
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 20px 50px; display: flex; justify-content: space-between;
+            align-items: center; background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(15px); z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .logo {
+            font-size: 24px; font-weight: 800; color: #00d4ff;
+            text-transform: uppercase; letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(0,212,255,0.6);
+        }
+        .nav-links { display: flex; list-style: none; gap: 30px; }
+        .nav-item {
+            color: rgba(255,255,255,0.7); cursor: pointer;
+            padding: 8px 16px; border-radius: 20px;
+            transition: all 0.3s ease; font-size: 16px; font-weight: 500;
+        }
+        .nav-item:hover { color: #fff; background: rgba(255,255,255,0.1); }
+        .nav-item.active {
+            color: #00d4ff; background: rgba(0,212,255,0.1);
+            box-shadow: 0 0 15px rgba(0,212,255,0.2);
+        }
+        .tg-button {
+            padding: 10px 25px;
+            background: linear-gradient(90deg, #229ED9, #0088cc);
+            color: #fff; text-decoration: none; border-radius: 50px;
+            font-weight: bold; transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(34,158,217,0.4);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .tg-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34,158,217,0.6);
+        }
+        .content {
+            padding: 120px 50px 50px; min-height: 100vh;
+            position: relative; z-index: 1;
+        }
+        .tab-content { display: none; animation: fadeIn 0.6s cubic-bezier(0.16,1,0.3,1); }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: 3rem; margin-bottom: 40px; text-align: center;
+            background: linear-gradient(to right, #fff, #00d4ff);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .grid-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px; max-width: 1200px; margin: 0 auto;
+        }
+        .card {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; overflow: hidden; backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px); border-color: rgba(0,212,255,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .card img {
+            width: 100%; height: 250px; object-fit: cover; display: block;
+        }
+        .card-info { padding: 20px; }
+        .card-info h3 { color: #00d4ff; margin-bottom: 10px; font-size: 1.2rem; }
+        .card-info p { color: #aaa; font-size: 0.9rem; line-height: 1.5; }
+        .video-wrapper {
+            position: relative; padding-bottom: 56.25%; height: 0;
+            overflow: hidden; background: #000; border-radius: 12px;
+        }
+        .video-wrapper iframe, .video-wrapper video {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
+        }
+        @media (max-width: 768px) {
+            .navigation { padding: 15px 20px; flex-wrap: wrap; gap: 15px; }
+            .nav-links { width: 100%; justify-content: center; gap: 15px; }
+            .tg-button { width: 100%; justify-content: center; }
+            .content { padding: 180px 20px 30px; }
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="water-container"><canvas id="waterCanvas"></canvas></div>
+
+    <nav class="navigation">
+        <div class="logo">DeepPrompt</div>
+        <ul class="nav-links">
+            <li class="nav-item active" data-tab="prompts">Промты</li>
+            <li class="nav-item" data-tab="portfolio">Портфолио</li>
+        </ul>
+        <a href="https://t.me/PROMTI_au" class="tg-button" target="_blank">
+            <span>✈️</span> Telegram
+        </a>
+    </nav>
+
+    <main class="content">
+        <section id="prompts" class="tab-content active">
+            <h1>Коллекция Промтов</h1>
+            <div class="grid-container">
+                <div class="card">
+                    <img src="https://via.placeholder.com/400x300/000000/00d4ff?text=Prompt+1" alt="Промт 1">
+                    <div class="card-info">
+                        <h3>Киберпанк Город</h3>
+                        <p>Детальное описание промта для генерации футуристического города в неоновых тонах...</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://via.placeholder.com/400x300/000000/00d4ff?text=Prompt+2" alt="Промт 2">
+                    <div class="card-info">
+                        <h3>Портрет Девушки</h3>
+                        <p>Промт для создания реалистичного портрета с кинематографичным освещением...</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://via.placeholder.com/400x300/000000/00d4ff?text=Prompt+3" alt="Промт 3">
+                    <div class="card-info">
+                        <h3>Фэнтези Пейзаж</h3>
+                        <p>Промт для создания эпического фэнтези-пейзажа с замками и драконами...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="tab-content">
+            <h1>Видео Портфолио</h1>
+            <div class="grid-container">
+                <div class="card">
+                    <div class="video-wrapper">
+                        <!-- ЗАМЕНИТЕ src НА ССЫЛКУ НА ВИДЕО С GITHUB -->
+                        <video controls poster="https://via.placeholder.com/400x225/000000/00d4ff?text=Video+1">
+                            <source src="https://raw.githubusercontent.com/yourusername/repo/main/video1.mp4" type="video/mp4">
+                            Ваш браузер не поддерживает видео.
+                        </video>
+                    </div>
+                    <div class="card-info">
+                        <h3>Название видео 1</h3>
+                        <p>Краткое описание видео...</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="video-wrapper">
+                        <video controls poster="https://via.placeholder.com/400x225/000000/00d4ff?text=Video+2">
+                            <source src="https://raw.githubusercontent.com/yourusername/repo/main/video2.mp4" type="video/mp4">
+                            Ваш браузер не поддерживает видео.
+                        </video>
+                    </div>
+                    <div class="card-info">
+                        <h3>Название видео 2</h3>
+                        <p>Краткое описание видео...</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="video-wrapper">
+                        <video controls poster="https://via.placeholder.com/400x225/000000/00d4ff?text=Video+3">
+                            <source src="https://raw.githubusercontent.com/yourusername/repo/main/video3.mp4" type="video/mp4">
+                            Ваш браузер не поддерживает видео.
+                        </video>
+                    </div>
+                    <div class="card-info">
+                        <h3>Название видео 3</h3>
+                        <p>Краткое описание видео...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // === ВОДНЫЙ ЭФФЕКТ С РЯБЬЮ ===
+        class WaterEffect {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.resize();
+                this.drops = [];
+                this.init();
+            }
+            resize() {
+                this.width = window.innerWidth;
+                this.height = window.innerHeight;
+                this.canvas.width = this.width;
+                this.canvas.height = this.height;
+            }
+            init() {
+                window.addEventListener('resize', () => this.resize());
+                this.canvas.addEventListener('mousemove', (e) => {
+                    if (Math.random() > 0.6) this.createDrop(e.clientX, e.clientY);
+                });
+                this.canvas.addEventListener('click', (e) => {
+                    for (let i = 0; i < 5; i++) {
+                        setTimeout(() => {
+                            this.createDrop(
+                                e.clientX + (Math.random() - 0.5) * 60,
+                                e.clientY + (Math.random() - 0.5) * 60
+                            );
+                        }, i * 40);
+                    }
+                });
+                this.animate();
+            }
+            createDrop(x, y) {
+                this.drops.push({
+                    x, y, radius: 0, alpha: 1,
+                    speed: 2 + Math.random() * 2.5,
+                    width: 1 + Math.random()
+                });
+            }
+            drawWater() {
+                const gradient = this.ctx.createLinearGradient(0, 0, 0, this.height);
+                gradient.addColorStop(0, '#0a0a1a');
+                gradient.addColorStop(0.5, '#0d1b2a');
+                gradient.addColorStop(1, '#1b263b');
+                this.ctx.fillStyle = gradient;
+                this.ctx.fillRect(0, 0, this.width, this.height);
+                
+                // Блеск воды
+                this.ctx.fillStyle = 'rgba(0, 212, 255, 0.04)';
+                for (let i = 0; i < 60; i++) {
+                    const x = (Math.sin(Date.now() * 0.001 + i) * 0.5 + 0.5) * this.width;
+    <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROMTI_au | Портфолио</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden; background: #050505; color: #fff;
+        }
+        .water-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; overflow: hidden;
+        }
+        #waterCanvas { width: 100%; height: 100%; display: block; }
+        
+        /* Навигация */
+        .nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 15px 30px; display: flex; justify-content: center;
+            align-items: center; gap: 15px; flex-wrap: wrap;
+            background: rgba(0,0,0,0.3); backdrop-filter: blur(15px);
+            z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .nav-btn {
+            padding: 12px 28px; background: rgba(255,255,255,0.05);
+            color: #fff; border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px; cursor: pointer; font-weight: 600;
+            transition: all 0.3s ease; font-size: 15px;
+        }
+        .nav-btn:hover { background: rgba(0,212,255,0.2); border-color: #00d4ff; }
+        .nav-btn.active {
+            background: linear-gradient(90deg, #0088cc, #00d4ff);
+            border-color: #00d4ff; box-shadow: 0 0 20px rgba(0,212,255,0.4);
+        }
+        .tg-link {
+            position: absolute; right: 30px; top: 50%; transform: translateY(-50%);
+            padding: 10px 22px; background: linear-gradient(90deg, #229ED9, #0088cc);
+            color: #fff; text-decoration: none; border-radius: 50px;
+            font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 6px;
+            transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(34,158,217,0.4);
+        }
+        .tg-link:hover { transform: translateY(-50%) scale(1.05); box-shadow: 0 6px 25px rgba(34,158,217,0.7); }
+        
+        /* Контент */
+        .content { padding: 100px 20px 40px; min-height: 100vh; position: relative; z-index: 1; }
+        .tab { display: none; animation: fadeIn 0.5s ease; max-width: 1200px; margin: 0 auto; }
+        .tab.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .section-title {
+            text-align: center; font-size: 2.2rem; margin-bottom: 35px;
+            background: linear-gradient(to right, #fff, #00d4ff);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        
+        /* Сетка карточек */
+        .grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px; padding: 0 10px;
+        }
+        .card {
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px; overflow: hidden; backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-6px); border-color: rgba(0,212,255,0.6);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 30px rgba(0,212,255,0.15);
+        }
+        .card-media {
+            width: 100%; height: 220px; background: #000; display: flex;
+            align-items: center; justify-content: center; position: relative; overflow: hidden;
+        }
+        .card-media img, .card-media video {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+        .card-badge {
+            position: absolute; top: 12px; right: 12px; padding: 4px 12px;
+            background: rgba(0,212,255,0.9); color: #000; border-radius: 20px;
+            font-size: 12px; font-weight: bold;
+        }
+        .card-body { padding: 18px; }
+        .card-title {
+            color: #00d4ff; font-size: 1.15rem; margin-bottom: 8px; font-weight: 600;
+        }
+        .card-desc { color: #bbb; font-size: 0.9rem; line-height: 1.5; }
+        .card-meta {
+            margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem; color: #888;
+        }
+        
+        /* Видео плеер */
+        .video-wrapper {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+        }
+        .video-wrapper video, .video-wrapper iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
+        }
+        
+        /* Полезная информация - смешанный контент */
+        .info-item {
+            display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px;
+            align-items: center; padding: 20px;
+            background: rgba(255,255,255,0.03); border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08); margin-bottom: 20px;
+        }
+        .info-item.reverse { grid-template-columns: 1.2fr 1fr; }
+        .info-media {
+            border-radius: 12px; overflow: hidden; background: #000;
+            height: 200px; display: flex; align-items: center; justify-content: center;
+        }
+        .info-media img, .info-media video {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .info-text h3 { color: #00d4ff; margin-bottom: 10px; font-size: 1.3rem; }
+        .info-text p { color: #ccc; line-height: 1.6; margin-bottom: 15px; }
+        .info-tag {
+            display: inline-block; padding: 4px 12px; background: rgba(0,212,255,0.15);
+            color: #00d4ff; border-radius: 20px; font-size: 0.8rem; margin-right: 8px;
+        }
+        
+        /* Адаптив */
+        @media (max-width: 768px) {
+            .nav { padding: 12px 15px; }
+            .nav-btn { padding: 10px 20px; font-size: 14px; }
+            .tg-link { position: static; transform: none; margin-top: 10px; width: 100%; justify-content: center; }
+            .section-title { font-size: 1.6rem; }
+            .info-item, .info-item.reverse { grid-template-columns: 1fr; }
+            .info-media { height: 180px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ФОН: ВОДА -->
+    <div class="water-container"><canvas id="waterCanvas"></canvas></div>
+
+    <!-- НАВИГАЦИЯ -->
+    <nav class="nav">
+        <button class="nav-btn active" data-tab="prompts">✨ Промты</button>
+        <button class="nav-btn" data-tab="videos">🎬 Видео</button>
+        <button class="nav-btn" data-tab="info">📚 Полезная информация</button>
+        <a href="https://t.me/PROMTI_au" class="tg-link" target="_blank">✈️ Telegram</a>
+    </nav>
+
+    <!-- КОНТЕНТ -->
+    <main class="content">
+        
+        <!-- === ВКЛАДКА 1: ПРОМТЫ === -->
+        <section id="prompts" class="tab active">
+            <h2 class="section-title">📸 Промты с изображениями</h2>
+            <div class="grid" id="prompts-grid">
+                <!-- Пример карточки промта -->
+                <div class="card">
+                    <div class="card-media">
+                        <span class="card-badge">PROMT</span>
+                        <!-- ЗАМЕНИТЕ src НА ССЫЛКУ С GITHUB RAW -->
+                        <img src="https://raw.githubusercontent.com/yourname/repo/main/prompts/prompt1.jpg" alt="Промт 1" onerror="this.src='https://via.placeholder.com/400x220/0a0a1a/00d4ff?text=Prompt+Image'">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Киберпанк портрет</h3>
+                        <p class="card-desc">Фотореалистичный персонаж с неоновым освещением, Unreal Engine 5, PBR материалы...</p>
+                        <div class="card-meta">📁 GitHub: prompts/prompt1.jpg</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-media">
+                        <span class="card-badge">PROMT</span>
+                        <img src="https://raw.githubusercontent.com/yourname/repo/main/prompts/prompt2.jpg" alt="Промт 2" onerror="this.src='https://via.placeholder.com/400x220/0a0a1a/00d4ff?text=Prompt+Image'">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Фэнтези пейзаж</h3>
+                        <p class="card-desc">Эпический ландшафт с замком, volumetric light, кинематографичное соотношение 16:9...</p>
+                        <div class="card-meta">📁 GitHub: prompts/prompt2.jpg</div>
+                    </div>
+                </div>
+                
+                <!-- КОПИРУЙТЕ БЛОК .card ДЛЯ НОВЫХ ПРОМТОВ -->
+            </div>
+        </section>
+
+        <!-- === ВКЛАДКА 2: ВИДЕО === -->
+        <section id="videos" class="tab">
+            <h2 class="section-title">🎥 Видео (V1, V2, V3...)</h2>
+            <div class="grid" id="videos-grid">
+                <!-- Пример карточки видео -->
+                <div class="card">
+                    <div class="card-media">
+                        <span class="card-badge">V1</span>
+                        <div class="video-wrapper">
+                            <!-- ЗАМЕНИТЕ src НА ССЫЛКУ С GITHUB RAW -->
+                            <video controls poster="https://raw.githubusercontent.com/yourname/repo/main/videos/v1_thumb.jpg">
+                                <source src="https://raw.githubusercontent.com/yourname/repo/main/videos/V1.mp4" type="video/mp4">
+                                Ваш браузер не поддерживает видео.
+                            </video>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">V1 — Название видео</h3>
+                        <p class="card-desc">Краткое описание процесса создания или результата генерации...</p>
+                        <div class="card-meta">📁 GitHub: videos/V1.mp4</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-media">
+                        <span class="card-badge">V2</span>
+                        <div class="video-wrapper">
+                            <video controls poster="https://raw.githubusercontent.com/yourname/repo/main/videos/v2_thumb.jpg">
+                                <source src="https://raw.githubusercontent.com/yourname/repo/main/videos/V2.mp4" type="video/mp4">
+                                Ваш браузер не поддерживает видео.
+                            </video>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">V2 — Название видео</h3>
+                        <p class="card-desc">Описание второго видео с демонстрацией техники или результата...</p>
+                        <div class="card-meta">📁 GitHub: videos/V2.mp4</div>
+                    </div>
+                </div>
+                
+                <!-- ДОБАВЛЯЙТЕ НОВЫЕ ВИДЕО: V3, V4, V5... копируя блок .card -->
+            </div>
+        </section>
+
+        <!-- === ВКЛАДКА 3: ПОЛЕЗНАЯ ИНФОРМАЦИЯ === -->
+        <section id="info" class="tab">
+            <h2 class="section-title">📚 Полезная информация</h2>
+            
+            <!-- Статья с фото -->
+            <div class="info-item">
+                <div class="info-media">
+                    <img src="https://raw.githubusercontent.com/yourname/repo/main/info/article1.jpg" alt="Статья 1" onerror="this.src='https://via.placeholder.com/400x200/0a0a1a/00d4ff?text=Article+Photo'">
+                </div>
+                <div class="info-text">
+                    <h3>🎨 Как писать эффективные промты</h3>
+                    <p>Пошаговое руководство по созданию детальных промтов для фотореалистичной генерации. Включает параметры освещения, композиции и стилизации...</p>
+                    <div>
+                        <span class="info-tag">Midjourney</span>
+                        <span class="info-tag">SDXL</span>
+                        <span class="info-tag">Гайд</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Статья с видео -->
+            <div class="info-item reverse">
+                <div class="info-media">
+                    <div class="video-wrapper">
+                        <video controls poster="https://raw.githubusercontent.com/yourname/repo/main/info/tutorial1_thumb.jpg">
+                            <source src="https://raw.githubusercontent.com/yourname/repo/main/info/tutorial1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="info-text">
+                    <h3>🎬 Видео-туториал: Настройка рендера</h3>
+                    <p>Полный разбор настроек Unreal Engine 5 для достижения кинематографичного качества: освещение, материалы, пост-обработка...</p>
+                    <div>
+                        <span class="info-tag">Unreal Engine</span>
+                        <span class="info-tag">Туториал</span>
+                        <span class="info-tag">Видео</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ещё статья с фото -->
+            <div class="info-item">
+                <div class="info-media">
+                    <img src="https://raw.githubusercontent.com/yourname/repo/main/info/article2.jpg" alt="Статья 2" onerror="this.src='https://via.placeholder.com/400x200/0a0a1a/00d4ff?text=Article+Photo'">
+                </div>
+                <div class="info-text">
+                    <h3>⚙️ Технические параметры для 3D-рендеров</h3>
+                    <p>Шпаргалка по настройкам: температура света в Кельвинах, параметры subsurface scattering, волюметрический свет и работа с топологией...</p>
+                    <div>
+                        <span class="info-tag">Octane</span>
+                        <span class="info-tag">PBR</span>
+                        <span class="info-tag">Шпаргалка</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Копируйте блок .info-item для новых материалов -->
+        </section>
+        
+    </main>
+
+    <script>
+        // === ВОДНЫЙ ЭФФЕКТ ===
+        class Water {
+            constructor(canvas) {
+                this.c = canvas; this.ctx = canvas.getContext('2d');
+                this.resize(); this.drops = []; this.init();
+            }
+            resize() {
+                this.w = window.innerWidth; this.h = window.innerHeight;
+                this.c.width = this.w; this.c.height = this.h;
+            }
+            init() {
+                window.addEventListener('resize', () => this.resize());
+                this.c.addEventListener('mousemove', e => {
+                    if(Math.random() > 0.65) this.drop(e.clientX, e.clientY);
+                });
+                this.c.addEventListener('click', e => {
+                    for(let i=0; i<4; i++) setTimeout(() => {
+                        this.drop(e.clientX+(Math.random()-0.5)*50, e.clientY+(Math.random()-0.5)*50);
+                    }, i*50);
+                });
+                this.loop();
+            }
+            drop(x,y) {
+                this.drops.push({x,y,r:0,a:1,s:2+Math.random()*2,w:1+Math.random()});
+            }
+            draw() {
+                // Фон воды
+                const g = this.ctx.createLinearGradient(0,0,0,this.h);
+                g.addColorStop(0,'#0a0a1a'); g.addColorStop(0.5,'#0d1b2a'); g.addColorStop(1,'#1b263b');
+                this.ctx.fillStyle = g; this.ctx.fillRect(0,0,this.w,this.h);
+                
+                // Блеск
+                this.ctx.fillStyle = 'rgba(0,212,255,0.03)';
+                for(let i=0;i<50;i++) {
+                    const x=(Math.sin(Date.now()*0.001+i)*0.5+0.5)*this.w;
+                    const y=(Math.cos(Date.now()*0.0015+i)*0.5+0.5)*this.h;
+                    this.ctx.beginPath(); this.ctx.arc(x,y,1.5+Math.sin(Date.now()*0.003+i),0,Math.PI*2); this.ctx.fill();
+                }
+                
+                // Рябь
+                for(let i=this.drops.length-1;i>=0;i--) {
+                    const d = this.drops[i];
+                    this.ctx.beginPath(); this.ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
+                    this.ctx.strokeStyle=`rgba(0,212,255,${d.a*0.4})`; this.ctx.lineWidth=d.w; this.ctx.stroke();
+                    this.ctx.beginPath(); this.ctx.arc(d.x,d.y,d.r*0.65,0,Math.PI*2);
+                    this.ctx.strokeStyle=`rgba(0,212,255,${d.a*0.2})`; this.ctx.stroke();
+                    d.r+=d.s; d.a-=0.013; if(d.a<=0) this.drops.splice(i,1);
+                }
+            }
+            loop() {
+                this.ctx.clearRect(0,0,this.w,this.h); this.draw();
+                requestAnimationFrame(() => this.loop());
+            }
+        }
+
+        // === ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ===
+        document.addEventListener('DOMContentLoaded', () => {
+            new Water(document.getElementById('waterCanvas'));
+            
+            const btns = document.querySelectorAll('.nav-btn');
+            const tabs = document.querySelectorAll('.tab');
+            
+            btns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tab = btn.dataset.tab;
+                    btns.forEach(b => b.classList.remove('active'));
+                    tabs.forEach(t => t.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById(tab).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
