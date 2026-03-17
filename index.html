@@ -6,320 +6,631 @@
     <title>PROMTI_au | Портфолио</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow-x: hidden; background: #050505; color: #fff;
+            overflow-x: hidden;
+            background: #050505;
+            color: #fff;
         }
+
+        /* ВОДНЫЙ ФОН */
         .water-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
         }
-        #waterCanvas { width: 100%; height: 100%; display: block; }
-        
-        /* Навигация */
-        .nav {
-            position: fixed; top: 0; left: 0; width: 100%;
-            padding: 15px 20px; display: flex; justify-content: center;
-            align-items: center; gap: 10px; flex-wrap: wrap;
-            background: rgba(0,0,0,0.3); backdrop-filter: blur(15px);
-            z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.1);
+        #waterCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
-        .nav-btn {
-            padding: 10px 20px; background: rgba(255,255,255,0.05);
-            color: #fff; border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 50px; cursor: pointer; font-weight: 600;
-            transition: all 0.3s ease; font-size: 14px;
+
+        /* МЕНЮ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .nav-btn:hover { background: rgba(0,212,255,0.2); border-color: #00d4ff; }
-        .nav-btn.active {
-            background: linear-gradient(90deg, #0088cc, #00d4ff);
-            border-color: #00d4ff; box-shadow: 0 0 20px rgba(0,212,255,0.4);
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00d4ff, #0088cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
         }
-        .tg-link {
-            position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
-            padding: 8px 18px; background: linear-gradient(90deg, #229ED9, #0088cc);
-            color: #fff; text-decoration: none; border-radius: 50px;
-            font-weight: bold; font-size: 13px; display: flex; align-items: center; gap: 5px;
-            transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(34,158,217,0.4);
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
         }
-        .tg-link:hover { transform: translateY(-50%) scale(1.03); box-shadow: 0 6px 25px rgba(34,158,217,0.7); }
-        
-        /* Контент */
-        .content { padding: 90px 15px 30px; min-height: 100vh; position: relative; z-index: 1; }
-        .tab { display: none; animation: fadeIn 0.5s ease; max-width: 1100px; margin: 0 auto; }
-        .tab.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            font-size: 16px;
+        }
+
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00d4ff, #0088cc);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .tg-button {
+            padding: 10px 25px;
+            background: linear-gradient(90deg, #229ED9, #0088cc);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(34, 158, 217, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tg-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(34, 158, 217, 0.7);
+        }
+
+        /* ГЛАВНЫЙ ЭКРАН */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 120px 80px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, #00d4ff, #0088cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-text {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .hero-btn {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #00d4ff, #0088cc);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.6);
+        }
+
+        /* АНИМИРОВАННОЕ ФОТО */
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        .tilting-image {
+            width: 450px;
+            height: 550px;
+            object-fit: cover;
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 
+                        0 0 0 1px rgba(255, 255, 255, 0.1),
+                        0 0 100px rgba(0, 212, 255, 0.2);
+            animation: tilt 6s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes tilt {
+            0%, 100% {
+                transform: rotateY(-10deg) rotateX(5deg);
+            }
+            50% {
+                transform: rotateY(10deg) rotateX(-5deg);
+            }
+        }
+
+        /* СЕКЦИИ */
+        .section {
+            padding: 100px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
         .section-title {
-            text-align: center; font-size: 1.8rem; margin-bottom: 25px;
-            background: linear-gradient(to right, #fff, #00d4ff);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, #fff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        
-        /* Сетка карточек */
+
         .grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
+
         .card {
-            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px; overflow: hidden; backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .card-media {
+            width: 100%;
+            height: 250px;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .card-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             transition: transform 0.3s ease;
         }
-        .card:hover { transform: translateY(-5px); border-color: rgba(0,212,255,0.6); }
-        
-        .card-media {
-            width: 100%; height: 180px; background: #111; display: flex;
-            align-items: center; justify-content: center; position: relative; overflow: hidden;
+
+        .card:hover .card-media img {
+            transform: scale(1.05);
         }
-        .card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
         .card-badge {
-            position: absolute; top: 10px; right: 10px; padding: 3px 10px;
-            background: rgba(0,212,255,0.95); color: #000; border-radius: 15px;
-            font-size: 11px; font-weight: bold;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 15px;
+            background: rgba(0, 212, 255, 0.95);
+            color: #000;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
         }
-        .card-body { padding: 15px; }
-        .card-title { color: #00d4ff; font-size: 1.1rem; margin-bottom: 6px; font-weight: 600; }
-        .card-desc { color: #aaa; font-size: 0.85rem; line-height: 1.4; }
-        .card-path {
-            margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.75rem; color: #666; font-family: monospace;
+
+        .card-body {
+            padding: 25px;
         }
-        
-        /* Видео */
-        .video-wrap { position: relative; padding-bottom: 56.25%; height: 0; }
-        .video-wrap video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: #000; }
-        
-        /* Полезная информация */
-        .info-block {
-            display: grid; grid-template-columns: 1fr 1.3fr; gap: 15px;
-            align-items: center; padding: 15px; margin-bottom: 15px;
-            background: rgba(255,255,255,0.03); border-radius: 14px;
-            border: 1px solid rgba(255,255,255,0.08);
+
+        .card-title {
+            color: #00d4ff;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            font-weight: 600;
         }
-        .info-block.reverse { grid-template-columns: 1.3fr 1fr; }
-        .info-media {
-            border-radius: 10px; overflow: hidden; background: #111; height: 150px;
-            display: flex; align-items: center; justify-content: center;
+
+        .card-desc {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
         }
-        .info-media img { width: 100%; height: 100%; object-fit: cover; }
-        .info-text h3 { color: #00d4ff; margin-bottom: 8px; font-size: 1.15rem; }
-        .info-text p { color: #bbb; font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px; }
-        .tag {
-            display: inline-block; padding: 3px 10px; background: rgba(0,212,255,0.15);
-            color: #00d4ff; border-radius: 15px; font-size: 0.75rem; margin-right: 6px;
+
+        /* ВИДЕО */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
         }
-        
-        @media (max-width: 600px) {
-            .nav { padding: 10px; }
-            .nav-btn { padding: 8px 16px; font-size: 13px; }
-            .tg-link { position: static; transform: none; margin-top: 8px; width: 100%; justify-content: center; }
-            .section-title { font-size: 1.4rem; }
-            .info-block, .info-block.reverse { grid-template-columns: 1fr; }
-            .info-media { height: 140px; }
+
+        .video-wrapper video,
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* КОНТАКТЫ */
+        .contacts {
+            text-align: center;
+            padding: 100px 50px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .contacts-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .contacts-text {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 40px;
+        }
+
+        .tg-big-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px 50px;
+            background: linear-gradient(135deg, #229ED9, #0088cc);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(34, 158, 217, 0.5);
+        }
+
+        .tg-big-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(34, 158, 217, 0.7);
+        }
+
+        /* АДАПТИВ */
+        @media (max-width: 968px) {
+            .hero {
+                flex-direction: column;
+                padding: 120px 30px 50px;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .tilting-image {
+                width: 300px;
+                height: 400px;
+                margin-top: 50px;
+            }
+
+            .navbar {
+                padding: 15px 20px;
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                gap: 15px;
+                margin-top: 20px;
+                text-align: center;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .tg-button {
+                position: static;
+                margin-top: 15px;
+            }
+
+            .mobile-menu {
+                display: block;
+                background: none;
+                border: none;
+                color: #fff;
+                font-size: 24px;
+                cursor: pointer;
+            }
+        }
+
+        .mobile-menu {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <!-- ФОН: ВОДА -->
-    <div class="water-container"><canvas id="waterCanvas"></canvas></div>
+    <!-- ВОДНЫЙ ФОН -->
+    <div class="water-container">
+        <canvas id="waterCanvas"></canvas>
+    </div>
 
-    <!-- НАВИГАЦИЯ -->
-    <nav class="nav">
-        <button class="nav-btn active" data-tab="prompts">✨ Промты</button>
-        <button class="nav-btn" data-tab="videos">🎬 Видео</button>
-        <button class="nav-btn" data-tab="info">📚 Инфо</button>
-        <a href="https://t.me/PROMTI_au" class="tg-link" target="_blank">✈️ Telegram</a>
+    <!-- МЕНЮ -->
+    <nav class="navbar">
+        <div class="logo">PROMTI_au</div>
+        <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#photos">📸 Фото</a></li>
+            <li><a href="#videos">🎬 Видео</a></li>
+            <li><a href="#prompts">✨ Промты</a></li>
+            <li><a href="#contacts">📩 Контакты</a></li>
+        </ul>
+        <a href="https://t.me/PROMTI_au" class="tg-button" target="_blank">
+            <span>✈️</span> Telegram
+        </a>
     </nav>
 
-    <!-- КОНТЕНТ -->
-    <main class="content">
-        
-        <!-- ▼▼▼ ВКЛАДКА 1: ПРОМТЫ ▼▼▼ -->
-        <section id="prompts" class="tab active">
-            <h2 class="section-title">📸 Промты</h2>
-            <div class="grid">
-                <!-- Карточка промта #1 -->
-                <div class="card">
-                    <div class="card-media">
-                        <span class="card-badge">PROMT</span>
-                        <!-- 🔁 ЗАМЕНИТЕ ССЫЛКУ НИЖЕ НА СВОЮ -->
-                        <img src="https://picsum.photos/seed/prompt1/400/220" alt="Промт 1">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">Название промта</h3>
-                        <p class="card-desc">Описание промта для генерации изображения...</p>
-                        <div class="card-path">📁 prompts/image1.jpg</div>
-                    </div>
-                </div>
-                <!-- Карточка промта #2 -->
-                <div class="card">
-                    <div class="card-media">
-                        <span class="card-badge">PROMT</span>
-                        <img src="https://picsum.photos/seed/prompt2/400/220" alt="Промт 2">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">Название промта</h3>
-                        <p class="card-desc">Описание промта для генерации изображения...</p>
-                        <div class="card-path">📁 prompts/image2.jpg</div>
-                    </div>
-                </div>
-                <!-- Карточка промта #3 -->
-                <div class="card">
-                    <div class="card-media">
-                        <span class="card-badge">PROMT</span>
-                        <img src="https://picsum.photos/seed/prompt3/400/220" alt="Промт 3">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">Название промта</h3>
-                        <p class="card-desc">Описание промта для генерации изображения...</p>
-                        <div class="card-path">📁 prompts/image3.jpg</div>
-                    </div>
-                </div>
-                <!-- ➕ Копируйте блок .card для новых промтов -->
-            </div>
-        </section>
+    <!-- ГЛАВНЫЙ ЭКРАН -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                BEST <span>Digital</span> PORTFOLIO
+            </h1>
+            <p class="hero-text">
+                Добро пожаловать в моё портфолио! Здесь вы найдёте лучшие работы: 
+                фотографии, видео и промты для генерации изображений. 
+                Создаю уникальный контент с помощью современных технологий.
+            </p>
+            <button class="hero-btn" onclick="document.getElementById('photos').scrollIntoView({behavior: 'smooth'})">
+                Смотреть работы
+            </button>
+        </div>
+        <div class="hero-image">
+            <!-- ЗАМЕНИТЕ src НА СВОЁ ФОТО -->
+            <img src="https://picsum.photos/seed/mainphoto/450/550" 
+                 alt="Main Photo" 
+                 class="tilting-image"
+                 id="mainImage">
+        </div>
+    </section>
 
-        <!-- ▼▼▼ ВКЛАДКА 2: ВИДЕО ▼▼▼ -->
-        <section id="videos" class="tab">
-            <h2 class="section-title">🎥 Видео (V1, V2, V3...)</h2>
-            <div class="grid">
-                <!-- Видео V1 -->
-                <div class="card">
-                    <div class="card-media">
-                        <span class="card-badge">V1</span>
-                        <div class="video-wrap">
-                            <!-- 🔁 ЗАМЕНИТЕ src НА СВОЮ ССЫЛКУ -->
-                            <video controls poster="https://picsum.photos/seed/v1/400/220">
-                                <source src="" type="video/mp4">
-                                Видео не загружено
-                            </video>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">V1 — Название</h3>
-                        <p class="card-desc">Краткое описание видео...</p>
-                        <div class="card-path">📁 videos/V1.mp4</div>
-                    </div>
+    <!-- ФОТО -->
+    <section id="photos" class="section">
+        <h2 class="section-title">📸 Фотографии</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-media" style="position: relative;">
+                    <span class="card-badge">NEW</span>
+                    <!-- ЗАМЕНИТЕ НА СВОИ ФОТО -->
+                    <img src="https://picsum.photos/seed/photo1/400/300" alt="Фото 1">
                 </div>
-                <!-- Видео V2 -->
-                <div class="card">
-                    <div class="card-media">
-                        <span class="card-badge">V2</span>
-                        <div class="video-wrap">
-                            <video controls poster="https://picsum.photos/seed/v2/400/220">
-                                <source src="" type="video/mp4">
-                                Видео не загружено
-                            </video>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">V2 — Название</h3>
-                        <p class="card-desc">Краткое описание видео...</p>
-                        <div class="card-path">📁 videos/V2.mp4</div>
-                    </div>
-                </div>
-                <!-- ➕ Копируйте блок для V3, V4... -->
-            </div>
-        </section>
-
-        <!-- ▼▼▼ ВКЛАДКА 3: ПОЛЕЗНАЯ ИНФОРМАЦИЯ ▼▼▼ -->
-        <section id="info" class="tab">
-            <h2 class="section-title">📚 Полезная информация</h2>
-            
-            <!-- Статья с фото -->
-            <div class="info-block">
-                <div class="info-media">
-                    <img src="https://picsum.photos/seed/info1/300/180" alt="Статья">
-                </div>
-                <div class="info-text">
-                    <h3>🎨 Как писать промты</h3>
-                    <p>Советы по составлению детальных промтов для фотореалистичной генерации...</p>
-                    <div><span class="tag">Гайд</span><span class="tag">Midjourney</span></div>
+                <div class="card-body">
+                    <h3 class="card-title">Название фото 1</h3>
+                    <p class="card-desc">Описание фотографии, параметры съёмки или генерации...</p>
                 </div>
             </div>
             
-            <!-- Статья с видео -->
-            <div class="info-block reverse">
-                <div class="info-media">
-                    <div class="video-wrap">
-                        <video controls poster="https://picsum.photos/seed/tutorial/300/180">
+            <div class="card">
+                <div class="card-media">
+                    <img src="https://picsum.photos/seed/photo2/400/300" alt="Фото 2">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">Название фото 2</h3>
+                    <p class="card-desc">Описание фотографии, параметры съёмки или генерации...</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-media">
+                    <img src="https://picsum.photos/seed/photo3/400/300" alt="Фото 3">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">Название фото 3</h3>
+                    <p class="card-desc">Описание фотографии, параметры съёмки или генерации...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ВИДЕО -->
+    <section id="videos" class="section">
+        <h2 class="section-title">🎬 Видео</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-media" style="position: relative;">
+                    <span class="card-badge">V1</span>
+                    <div class="video-wrapper">
+                        <!-- ЗАМЕНИТЕ НА СВОИ ВИДЕО -->
+                        <video controls poster="https://picsum.photos/seed/video1/400/225">
                             <source src="" type="video/mp4">
+                            Видео не загружено
                         </video>
                     </div>
                 </div>
-                <div class="info-text">
-                    <h3>🎬 Туториал: Настройка</h3>
-                    <p>Видео-инструкция по настройке параметров рендера...</p>
-                    <div><span class="tag">Видео</span><span class="tag">Туториал</span></div>
+                <div class="card-body">
+                    <h3 class="card-title">V1 — Название видео</h3>
+                    <p class="card-desc">Краткое описание видео...</p>
                 </div>
             </div>
             
-            <!-- Ещё статья -->
-            <div class="info-block">
-                <div class="info-media">
-                    <img src="https://picsum.photos/seed/info2/300/180" alt="Статья">
+            <div class="card">
+                <div class="card-media" style="position: relative;">
+                    <span class="card-badge">V2</span>
+                    <div class="video-wrapper">
+                        <video controls poster="https://picsum.photos/seed/video2/400/225">
+                            <source src="" type="video/mp4">
+                            Видео не загружено
+                        </video>
+                    </div>
                 </div>
-                <div class="info-text">
-                    <h3>⚙️ Параметры рендера</h3>
-                    <p>Шпаргалка по настройкам освещения, материалов и пост-обработки...</p>
-                    <div><span class="tag">Шпаргалка</span><span class="tag">Unreal</span></div>
+                <div class="card-body">
+                    <h3 class="card-title">V2 — Название видео</h3>
+                    <p class="card-desc">Краткое описание видео...</p>
                 </div>
             </div>
-            <!-- ➕ Копируйте блок .info-block для новых материалов -->
-        </section>
-        
-    </main>
+        </div>
+    </section>
+
+    <!-- ПРОМТЫ -->
+    <section id="prompts" class="section">
+        <h2 class="section-title">✨ Промты</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-media" style="position: relative;">
+                    <span class="card-badge">PROMT</span>
+                    <img src="https://picsum.photos/seed/prompt1/400/300" alt="Промт 1">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">Название промта</h3>
+                    <p class="card-desc">Текст промта для генерации изображения...</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-media" style="position: relative;">
+                    <span class="card-badge">PROMT</span>
+                    <img src="https://picsum.photos/seed/prompt2/400/300" alt="Промт 2">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">Название промта</h3>
+                    <p class="card-desc">Текст промта для генерации изображения...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- КОНТАКТЫ -->
+    <section id="contacts" class="contacts">
+        <h2 class="contacts-title">📩 Свяжитесь со мной</h2>
+        <p class="contacts-text">
+            Есть вопросы или хотите заказать работу? Пишите в Telegram!
+        </p>
+        <a href="https://t.me/PROMTI_au" class="tg-big-button" target="_blank">
+            <span>✈️</span>
+            <span>Написать в Telegram</span>
+        </a>
+    </section>
 
     <script>
-        // === ВОДНЫЙ ЭФФЕКТ ===
+        // ВОДНЫЙ ЭФФЕКТ
         class Water {
-            constructor(c) {
-                this.c = c; this.x = c.getContext('2d');
-                this.r = () => { this.w = innerWidth; this.h = innerHeight; this.c.width = this.w; this.c.height = this.h; };
-                this.d = []; this.r(); this.i();
+            constructor(canvas) {
+                this.c = canvas;
+                this.x = c.getContext('2d');
+                this.d = [];
+                this.r = () => {
+                    this.w = innerWidth;
+                    this.h = innerHeight;
+                    this.c.width = this.w;
+                    this.c.height = this.h;
+                };
+                this.r();
+                this.i();
             }
+            
             i() {
                 onresize = () => this.r();
-                this.c.onmousemove = e => { if(Math.random() > 0.7) this.drp(e.clientX, e.clientY); };
-                this.c.onclick = e => { for(let i=0;i<3;i++) setTimeout(() => this.drp(e.clientX+(Math.random()-0.5)*40, e.clientY+(Math.random()-0.5)*40), i*40); };
+                this.c.onmousemove = e => {
+                    if(Math.random() > 0.7) this.drp(e.clientX, e.clientY);
+                };
+                this.c.onclick = e => {
+                    for(let i=0; i<4; i++) {
+                        setTimeout(() => {
+                            this.drp(e.clientX + (Math.random()-0.5)*50, e.clientY + (Math.random()-0.5)*50);
+                        }, i*40);
+                    }
+                };
                 this.lp();
             }
-            drp(x,y) { this.d.push({x,y,r:0,a:1,s:2+Math.random()*2}); }
+            
+            drp(x, y) {
+                this.d.push({x, y, r: 0, a: 1, s: 2 + Math.random()*2});
+            }
+            
             dr() {
-                const g = this.x.createLinearGradient(0,0,0,this.h);
-                g.addColorStop(0,'#0a0a1a'); g.addColorStop(0.5,'#0d1b2a'); g.addColorStop(1,'#1b263b');
-                this.x.fillStyle = g; this.x.fillRect(0,0,this.w,this.h);
+                const g = this.x.createLinearGradient(0, 0, 0, this.h);
+                g.addColorStop(0, '#0a0a1a');
+                g.addColorStop(0.5, '#0d1b2a');
+                g.addColorStop(1, '#1b263b');
+                this.x.fillStyle = g;
+                this.x.fillRect(0, 0, this.w, this.h);
+                
                 this.x.fillStyle = 'rgba(0,212,255,0.03)';
-                for(let i=0;i<40;i++) {
-                    const X=(Math.sin(Date.now()*0.001+i)*0.5+0.5)*this.w;
-                    const Y=(Math.cos(Date.now()*0.0015+i)*0.5+0.5)*this.h;
-                    this.x.beginPath(); this.x.arc(X,Y,1+Math.sin(Date.now()*0.003+i),0,Math.PI*2); this.x.fill();
+                for(let i=0; i<50; i++) {
+                    const X = (Math.sin(Date.now()*0.001+i)*0.5+0.5)*this.w;
+                    const Y = (Math.cos(Date.now()*0.0015+i)*0.5+0.5)*this.h;
+                    this.x.beginPath();
+                    this.x.arc(X, Y, 1.5+Math.sin(Date.now()*0.003+i), 0, Math.PI*2);
+                    this.x.fill();
                 }
-                for(let i=this.d.length-1;i>=0;i--) {
-                    const d=this.d[i];
-                    this.x.beginPath(); this.x.arc(d.x,d.y,d.r,0,Math.PI*2);
-                    this.x.strokeStyle=`rgba(0,212,255,${d.a*0.4})`; this.x.lineWidth=1.5; this.x.stroke();
-                    this.x.beginPath(); this.x.arc(d.x,d.y,d.r*0.6,0,Math.PI*2);
-                    this.x.strokeStyle=`rgba(0,212,255,${d.a*0.2})`; this.x.stroke();
-                    d.r+=d.s; d.a-=0.015; if(d.a<=0) this.d.splice(i,1);
+                
+                for(let i=this.d.length-1; i>=0; i--) {
+                    const d = this.d[i];
+                    this.x.beginPath();
+                    this.x.arc(d.x, d.y, d.r, 0, Math.PI*2);
+                    this.x.strokeStyle = `rgba(0,212,255,${d.a*0.4})`;
+                    this.x.lineWidth = 1.5;
+                    this.x.stroke();
+                    
+                    this.x.beginPath();
+                    this.x.arc(d.x, d.y, d.r*0.6, 0, Math.PI*2);
+                    this.x.strokeStyle = `rgba(0,212,255,${d.a*0.2})`;
+                    this.x.stroke();
+                    
+                    d.r += d.s;
+                    d.a -= 0.015;
+                    if(d.a <= 0) this.d.splice(i, 1);
                 }
             }
-            lp() { this.x.clearRect(0,0,this.w,this.h); this.dr(); requestAnimationFrame(() => this.lp()); }
+            
+            lp() {
+                this.x.clearRect(0, 0, this.w, this.h);
+                this.dr();
+                requestAnimationFrame(() => this.lp());
+            }
         }
 
-        // === ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ===
-        onload = () => {
-            new Water(document.getElementById('waterCanvas'));
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.onclick = () => {
-                    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    btn.classList.add('active');
-                    document.getElementById(btn.dataset.tab).classList.add('active');
-                };
-            });
-        };
-    </script>
-</body>
-</html>
+        // МЕНЮ
